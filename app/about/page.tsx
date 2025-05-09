@@ -10,10 +10,21 @@ import {
   Target,
   Clock,
   Briefcase,
+  Code,
 } from "lucide-react";
 import Link from "next/link";
 
 export default function AboutPage() {
+  const testimonials = [
+    {
+      quote:
+        "Quanta Development created an amazing website for our Mexican restaurant that perfectly captures our authentic atmosphere and cuisine. The online ordering system they implemented has increased our takeout orders by 60%.",
+      author: "Tyler Pavlik",
+      position: "Owner, Casa Cabos",
+      rating: 5,
+    },
+  ];
+
   return (
     <main className="flex min-h-screen flex-col">
       {/* Hero Section */}
@@ -62,10 +73,10 @@ export default function AboutPage() {
                 Our Story
               </h2>
               <p className="text-lg text-gray-600 mb-6">
-                Founded in 2020, Quanta Development began with a simple mission:
+                Founded in 2024, Quanta Development began with a simple mission:
                 to help businesses leverage technology to achieve their goals.
-                What started as a small team of three developers has grown into
-                a full-service digital solutions provider.
+                Starting as a partnership between two university students, we're
+                building a foundation for innovative digital solutions.
               </p>
               <p className="text-lg text-gray-600 mb-6">
                 Our name, "Quanta," represents the fundamental units of energy
@@ -88,10 +99,11 @@ export default function AboutPage() {
               className="relative h-[400px] rounded-lg overflow-hidden shadow-xl"
             >
               <Image
-                src="/placeholder.svg?height=800&width=600"
-                alt="Quanta Development Team"
+                src="/logo-full.png"
+                alt="Quanta Development Logo"
                 fill
                 style={{ objectFit: "cover" }}
+                className="hover:scale-105 transition-transform duration-500"
               />
             </motion.div>
           </div>
@@ -181,57 +193,58 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                name: "Ernest Jones",
-                role: "Founder & CEO",
-                image: "/placeholder.svg?height=400&width=400",
-                bio: "Currently pursuing a Bachelor's and Master's degree in Artificial Intelligence, with professional experience at a Fortune 500 company. Leading Quanta Development with a vision to transform businesses through innovative technology solutions.",
-              },
-              {
-                name: "Sarah Chen",
-                role: "CTO",
-                image: "/placeholder.svg?height=400&width=400",
-                bio: "Sarah oversees our technical strategy and ensures we stay at the forefront of technological advancements.",
-              },
-              {
-                name: "Michael Rodriguez",
-                role: "Lead Developer",
-                image: "/placeholder.svg?height=400&width=400",
-                bio: "Michael brings extensive experience in full-stack development and leads our development team.",
-              },
-              {
-                name: "Emily Taylor",
-                role: "UX/UI Designer",
-                image: "/placeholder.svg?height=400&width=400",
-                bio: "Emily creates intuitive and engaging user experiences that delight our clients' customers.",
-              },
-            ].map((member, i) => (
-              <motion.div
-                key={i}
-                className="bg-white rounded-lg overflow-hidden shadow-md"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                <div className="relative h-64 w-full">
-                  <Image
-                    src={member.image || "/placeholder.svg"}
-                    alt={member.name}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
-                  <p className="text-blue-600 mb-3">{member.role}</p>
-                  <p className="text-gray-600">{member.bio}</p>
-                </div>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+            <motion.div
+              key="ernest"
+              className="bg-white rounded-lg overflow-hidden shadow-md"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              whileHover={{ y: -5 }}
+            >
+              <div className="relative h-64 w-full bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center">
+                <Users className="w-24 h-24 text-blue-600" />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-1">Ernest Jones</h3>
+                <p className="text-blue-600 mb-3">Founder & CEO</p>
+                <p className="text-gray-600">
+                  Currently pursuing a Bachelor's and Master's degree in Artificial Intelligence, 
+                  with professional experience at a Fortune 500 company. Leading Quanta Development 
+                  with a vision to transform businesses through innovative technology solutions.
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              key="camden"
+              className="bg-white rounded-lg overflow-hidden shadow-md"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ y: -5 }}
+            >
+              <div className="relative h-64 w-full bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center">
+                <Image
+                  src="/cam.jpeg"
+                  alt="Camden Wierengo"
+                  fill
+                  style={{ objectFit: "cover", objectPosition: "center 30%" }}
+                  className="hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-1">Camden Wierengo</h3>
+                <p className="text-blue-600 mb-3">Lead Developer</p>
+                <p className="text-gray-600">
+                  Currently pursuing a Bachelor's and Master's degree in Artificial Intelligence,
+                  Camden brings technical expertise and innovative thinking to our development
+                  process, focusing on creating robust, scalable solutions using cutting-edge technologies.
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
