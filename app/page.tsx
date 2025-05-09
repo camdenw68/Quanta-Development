@@ -1,18 +1,38 @@
-"use client"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CheckCircle, Code, MessageSquare, Cpu, ArrowRight, Users, BarChart, Star } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import Link from "next/link"
+"use client";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  CheckCircle,
+  Code,
+  MessageSquare,
+  Cpu,
+  ArrowRight,
+  Users,
+  BarChart,
+  Star,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+import Link from "next/link";
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll()
-  const y = useTransform(scrollYProgress, [0, 1], [0, 300])
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  const [testimonialIndex, setTestimonialIndex] = useState(0)
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
 
   const testimonials = [
     {
@@ -36,37 +56,44 @@ export default function Home() {
       position: "VP of Technology, FinanceHub",
       rating: 5,
     },
-  ]
+    {
+      quote:
+        "Quanta Development created an amazing website for our Mexican restaurant that perfectly captures our authentic atmosphere and cuisine. The online ordering system they implemented has increased our takeout orders by 60%.",
+      author: "Tyler Pavlik",
+      position: "Owner, Casa Cabos",
+      rating: 5,
+    },
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in")
+            entry.target.classList.add("animate-fade-in");
           }
-        })
+        });
       },
-      { threshold: 0.1 },
-    )
+      { threshold: 0.1 }
+    );
 
-    const sections = document.querySelectorAll("section")
+    const sections = document.querySelectorAll("section");
     sections.forEach((section) => {
-      observer.observe(section)
-    })
+      observer.observe(section);
+    });
 
     // Auto-rotate testimonials
     const interval = setInterval(() => {
-      setTestimonialIndex((prev) => (prev + 1) % testimonials.length)
-    }, 5000)
+      setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
 
     return () => {
       sections.forEach((section) => {
-        observer.unobserve(section)
-      })
-      clearInterval(interval)
-    }
-  }, [testimonials.length])
+        observer.unobserve(section);
+      });
+      clearInterval(interval);
+    };
+  }, [testimonials.length]);
 
   return (
     <main className="flex min-h-screen flex-col">
@@ -122,7 +149,9 @@ export default function Home() {
                       className="drop-shadow-sm"
                     />
                   </div>
-                  <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">uanta Development</h1>
+                  <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
+                    uanta Development
+                  </h1>
                 </motion.div>
                 <motion.h2
                   className="text-2xl md:text-3xl font-medium text-gray-700"
@@ -138,8 +167,9 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6 }}
                 >
-                  We build custom software, intelligent chatbots, and innovative digital solutions that help businesses
-                  thrive in the modern technological landscape.
+                  We build custom software, intelligent chatbots, and innovative
+                  digital solutions that help businesses thrive in the modern
+                  technological landscape.
                 </motion.p>
                 <motion.div
                   className="flex flex-col sm:flex-row gap-4"
@@ -175,13 +205,38 @@ export default function Home() {
               >
                 <div className="relative w-full max-w-md h-[400px] bg-gradient-to-br from-blue-600 to-blue-400 rounded-lg shadow-xl overflow-hidden">
                   <div className="absolute inset-0 opacity-10">
-                    <svg className="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0 0 L100 0 L100 100 L0 100 Z" fill="none" stroke="white" strokeWidth="0.5"></path>
+                    <svg
+                      className="w-full h-full"
+                      viewBox="0 0 100 100"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0 0 L100 0 L100 100 L0 100 Z"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="0.5"
+                      ></path>
                       {Array.from({ length: 10 }).map((_, i) => (
-                        <line key={i} x1="0" y1={i * 10} x2="100" y2={i * 10} stroke="white" strokeWidth="0.2" />
+                        <line
+                          key={i}
+                          x1="0"
+                          y1={i * 10}
+                          x2="100"
+                          y2={i * 10}
+                          stroke="white"
+                          strokeWidth="0.2"
+                        />
                       ))}
                       {Array.from({ length: 10 }).map((_, i) => (
-                        <line key={i} x1={i * 10} y1="0" x2={i * 10} y2="100" stroke="white" strokeWidth="0.2" />
+                        <line
+                          key={i}
+                          x1={i * 10}
+                          y1="0"
+                          x2={i * 10}
+                          y2="100"
+                          stroke="white"
+                          strokeWidth="0.2"
+                        />
                       ))}
                     </svg>
                   </div>
@@ -199,10 +254,12 @@ export default function Home() {
                       >
                         <Cpu className="w-16 h-16 mx-auto mb-4" />
                       </motion.div>
-                      <h3 className="text-2xl font-bold mb-2">Cutting-Edge Technology</h3>
+                      <h3 className="text-2xl font-bold mb-2">
+                        Cutting-Edge Technology
+                      </h3>
                       <p>
-                        We leverage the latest technologies to build solutions that are scalable, secure, and
-                        future-proof.
+                        We leverage the latest technologies to build solutions
+                        that are scalable, secure, and future-proof.
                       </p>
                     </div>
                   </div>
@@ -214,44 +271,89 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-white opacity-0 transition-opacity duration-1000" id="services">
+      <section
+        className="py-20 bg-gradient-to-br from-blue-50 via-white to-blue-50"
+        id="services"
+      >
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Services</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We offer a comprehensive range of digital solutions to help your business grow and succeed.
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                Our Services
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                We offer cutting-edge digital solutions designed to drive your
+                business growth and success in the modern technological
+                landscape.
+              </p>
+            </motion.div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                icon: <Code className="w-6 h-6 text-blue-600" />,
+                icon: <Code className="w-8 h-8 text-blue-600" />,
                 title: "Custom Software Development",
                 description:
-                  "Tailored software solutions designed to address your specific business challenges and requirements.",
-                items: ["Web Applications", "Mobile Apps", "Enterprise Software", "API Development"],
+                  "Transform your business with tailored software solutions that address your unique challenges and drive growth.",
+                items: [
+                  "Enterprise-grade Web Applications",
+                  "Native & Cross-platform Mobile Apps",
+                  "Scalable Enterprise Software",
+                  "Robust API Development",
+                  "Cloud-native Solutions",
+                ],
+                benefits: [
+                  "Increased operational efficiency",
+                  "Enhanced customer experience",
+                  "Reduced operational costs",
+                  "Improved scalability",
+                ],
                 link: "/services/custom-software",
               },
               {
-                icon: <MessageSquare className="w-6 h-6 text-blue-600" />,
+                icon: <MessageSquare className="w-8 h-8 text-blue-600" />,
                 title: "AI & Chatbot Solutions",
                 description:
-                  "Intelligent conversational interfaces and AI-powered tools to enhance customer engagement and automate processes.",
+                  "Leverage the power of artificial intelligence to automate processes, enhance customer engagement, and drive innovation.",
                 items: [
-                  "Custom Chatbots",
-                  "AI Integration",
+                  "Intelligent Chatbots",
+                  "AI-Powered Automation",
                   "Natural Language Processing",
-                  "Automated Customer Support",
+                  "Machine Learning Solutions",
+                  "Predictive Analytics",
+                ],
+                benefits: [
+                  "24/7 customer support",
+                  "Reduced response times",
+                  "Increased customer satisfaction",
+                  "Cost-effective operations",
                 ],
                 link: "/services/ai-chatbots",
               },
               {
-                icon: <BarChart className="w-6 h-6 text-blue-600" />,
+                icon: <BarChart className="w-8 h-8 text-blue-600" />,
                 title: "Digital Transformation",
                 description:
-                  "Strategic guidance and implementation to help your business leverage technology for growth and efficiency.",
-                items: ["Process Automation", "Legacy System Modernization", "Cloud Migration", "Data Analytics"],
+                  "Modernize your business with strategic digital solutions that drive growth, efficiency, and competitive advantage.",
+                items: [
+                  "Process Automation",
+                  "Legacy System Modernization",
+                  "Cloud Migration",
+                  "Data Analytics & BI",
+                  "Digital Strategy Consulting",
+                ],
+                benefits: [
+                  "Improved business agility",
+                  "Enhanced data insights",
+                  "Reduced operational costs",
+                  "Future-proof infrastructure",
+                ],
                 link: "/services/digital-transformation",
               },
             ].map((service, i) => (
@@ -262,26 +364,54 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.2 }}
               >
-                <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 h-full">
+                <Card className="border-none shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 h-full bg-white">
                   <CardHeader className="pb-2">
-                    <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 rounded-xl bg-blue-100 flex items-center justify-center mb-4">
                       {service.icon}
                     </div>
-                    <CardTitle className="text-xl">{service.title}</CardTitle>
+                    <CardTitle className="text-2xl font-bold text-gray-900">
+                      {service.title}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="flex flex-col h-full">
-                    <CardDescription className="text-gray-600 text-base">{service.description}</CardDescription>
-                    <ul className="mt-4 space-y-2 mb-6">
-                      {service.items.map((item, j) => (
-                        <li key={j} className="flex items-center">
-                          <CheckCircle className="w-5 h-5 text-blue-600 mr-2" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <CardDescription className="text-gray-600 text-lg mb-6">
+                      {service.description}
+                    </CardDescription>
+
+                    <div className="mb-6">
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3">
+                        Key Features:
+                      </h4>
+                      <ul className="space-y-2">
+                        {service.items.map((item, j) => (
+                          <li key={j} className="flex items-center">
+                            <CheckCircle className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0" />
+                            <span className="text-gray-700">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="mb-6">
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3">
+                        Business Benefits:
+                      </h4>
+                      <ul className="space-y-2">
+                        {service.benefits.map((benefit, j) => (
+                          <li key={j} className="flex items-center">
+                            <ArrowRight className="w-4 h-4 text-blue-600 mr-2 flex-shrink-0" />
+                            <span className="text-gray-700">{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
                     <div className="mt-auto">
                       <Link href={service.link}>
-                        <Button variant="outline" className="w-full mt-4 hover:bg-blue-50">
+                        <Button
+                          variant="outline"
+                          className="w-full mt-4 hover:bg-blue-50 border-blue-200 hover:border-blue-300 transition-all duration-300"
+                        >
                           Learn More
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
@@ -296,13 +426,23 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-blue-50 opacity-0 transition-opacity duration-1000">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">What Our Clients Say</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Don't just take our word for it. Here's what our clients have to say about working with us.
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                What Our Clients Say
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Don't just take our word for it. Here's what our clients have to
+                say about working with us.
+              </p>
+            </motion.div>
           </div>
 
           <div className="max-w-4xl mx-auto">
@@ -339,11 +479,20 @@ export default function Home() {
                   </p>
                   <div className="flex flex-col items-center">
                     <div className="w-16 h-16 bg-blue-100 rounded-full mb-4"></div>
-                    <h4 className="text-lg font-semibold">{testimonials[testimonialIndex].author}</h4>
-                    <p className="text-gray-600 mb-4">{testimonials[testimonialIndex].position}</p>
+                    <h4 className="text-lg font-semibold">
+                      {testimonials[testimonialIndex].author}
+                    </h4>
+                    <p className="text-gray-600 mb-4">
+                      {testimonials[testimonialIndex].position}
+                    </p>
                     <div className="flex">
-                      {Array.from({ length: testimonials[testimonialIndex].rating }).map((_, i) => (
-                        <Star key={i} className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                      {Array.from({
+                        length: testimonials[testimonialIndex].rating,
+                      }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-5 h-5 text-yellow-500 fill-yellow-500"
+                        />
                       ))}
                     </div>
                   </div>
@@ -372,9 +521,12 @@ export default function Home() {
       <section className="py-20 bg-gray-50 opacity-0 transition-opacity duration-1000">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Quanta Development</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Why Choose Quanta Development
+            </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We combine technical expertise with business acumen to deliver solutions that drive real results.
+              We combine technical expertise with business acumen to deliver
+              solutions that drive real results.
             </p>
           </div>
 
@@ -407,7 +559,8 @@ export default function Home() {
               {
                 icon: <BarChart className="w-10 h-10 text-blue-600" />,
                 title: "Results-Driven",
-                description: "We focus on delivering solutions that generate tangible business outcomes and ROI.",
+                description:
+                  "We focus on delivering solutions that generate tangible business outcomes and ROI.",
               },
               {
                 icon: <MessageSquare className="w-10 h-10 text-blue-600" />,
@@ -425,7 +578,8 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{
                   y: -5,
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                  boxShadow:
+                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                 }}
               >
                 <div className="mb-4">{item.icon}</div>
@@ -446,9 +600,12 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl font-bold mb-6">Ready to Transform Your Business?</h2>
+            <h2 className="text-3xl font-bold mb-6">
+              Ready to Transform Your Business?
+            </h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
-              Let's discuss how Quanta Development can help you achieve your technology goals.
+              Let's discuss how Quanta Development can help you achieve your
+              technology goals.
             </p>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link href="/contact">
@@ -465,5 +622,5 @@ export default function Home() {
         </div>
       </section>
     </main>
-  )
+  );
 }

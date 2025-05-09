@@ -1,10 +1,17 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
-import { ArrowRight, Users, Award, Target, Clock, Briefcase } from "lucide-react"
-import Link from "next/link"
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  Users,
+  Award,
+  Target,
+  Clock,
+  Briefcase,
+} from "lucide-react";
+import Link from "next/link";
 
 export default function AboutPage() {
   return (
@@ -32,8 +39,9 @@ export default function AboutPage() {
                 About Quanta Development
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                We're a team of passionate developers, designers, and strategists dedicated to transforming ideas into
-                powerful digital solutions.
+                We're a team of passionate developers, designers, and
+                strategists dedicated to transforming ideas into powerful
+                digital solutions.
               </p>
             </motion.div>
           </div>
@@ -50,20 +58,26 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                Our Story
+              </h2>
               <p className="text-lg text-gray-600 mb-6">
-                Founded in 2020, Quanta Development began with a simple mission: to help businesses leverage technology
-                to achieve their goals. What started as a small team of three developers has grown into a full-service
-                digital solutions provider.
+                Founded in 2020, Quanta Development began with a simple mission:
+                to help businesses leverage technology to achieve their goals.
+                What started as a small team of three developers has grown into
+                a full-service digital solutions provider.
               </p>
               <p className="text-lg text-gray-600 mb-6">
-                Our name, "Quanta," represents the fundamental units of energy that power the universe. Similarly, we
-                believe that technology is the fundamental unit that powers modern business. Our goal is to harness this
-                power to create solutions that drive real results.
+                Our name, "Quanta," represents the fundamental units of energy
+                that power the universe. Similarly, we believe that technology
+                is the fundamental unit that powers modern business. Our goal is
+                to harness this power to create solutions that drive real
+                results.
               </p>
               <p className="text-lg text-gray-600">
-                Today, we work with clients across various industries, from startups to enterprise organizations,
-                helping them navigate the complex digital landscape and achieve their business objectives.
+                Today, we work with clients across various industries, from
+                startups to enterprise organizations, helping them navigate the
+                complex digital landscape and achieve their business objectives.
               </p>
             </motion.div>
             <motion.div
@@ -88,9 +102,12 @@ export default function AboutPage() {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Values</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Our Values
+            </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              These core principles guide everything we do and define how we work with our clients and each other.
+              These core principles guide everything we do and define how we
+              work with our clients and each other.
             </p>
           </div>
 
@@ -117,7 +134,8 @@ export default function AboutPage() {
               {
                 icon: <Clock className="w-10 h-10 text-blue-600" />,
                 title: "Timeliness",
-                description: "We respect deadlines and deliver on time, every time, without compromising on quality.",
+                description:
+                  "We respect deadlines and deliver on time, every time, without compromising on quality.",
               },
               {
                 icon: <Briefcase className="w-10 h-10 text-blue-600" />,
@@ -154,19 +172,22 @@ export default function AboutPage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Meet Our Team
+            </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our talented team of experts is passionate about creating innovative solutions that drive business growth.
+              Our talented team of experts is passionate about creating
+              innovative solutions that drive business growth.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
-                name: "Alex Johnson",
+                name: "Ernest Jones",
                 role: "Founder & CEO",
                 image: "/placeholder.svg?height=400&width=400",
-                bio: "With over 15 years of experience in software development, Alex leads our team with vision and expertise.",
+                bio: "Currently pursuing a Bachelor's and Master's degree in Artificial Intelligence, with professional experience at a Fortune 500 company. Leading Quanta Development with a vision to transform businesses through innovative technology solutions.",
               },
               {
                 name: "Sarah Chen",
@@ -226,11 +247,16 @@ export default function AboutPage() {
           >
             <h2 className="text-3xl font-bold mb-6">Ready to Work With Us?</h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
-              Let's discuss how Quanta Development can help you achieve your technology goals.
+              Let's discuss how Quanta Development can help you achieve your
+              technology goals.
             </p>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link href="/contact">
-                <Button size="lg" variant="outline" className="bg-white text-blue-600 hover:bg-blue-50">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="bg-white text-blue-600 hover:bg-blue-50"
+                >
                   Contact Us Today
                 </Button>
               </Link>
@@ -239,5 +265,5 @@ export default function AboutPage() {
         </div>
       </section>
     </main>
-  )
+  );
 }
