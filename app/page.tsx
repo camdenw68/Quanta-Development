@@ -1,42 +1,12 @@
-
 "use client"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CheckCircle, Code, MessageSquare, Cpu, ArrowRight, Users, BarChart, Star } from "lucide-react"
+import { CheckCircle, Code, MessageSquare, Cpu, ArrowRight, Users, BarChart, Star, ArrowLeft } from "lucide-react"
 import { useEffect, useRef, useState, useCallback } from "react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 
-"use client";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import {
-  CheckCircle,
-  Code,
-  MessageSquare,
-  Cpu,
-  ArrowRight,
-  Users,
-  BarChart,
-  Star,
-} from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-} from "framer-motion";
-import Link from "next/link";
 
 
 export default function Home() {
@@ -44,30 +14,11 @@ export default function Home() {
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [cursorPoint, setCursorPoint] = useState({ x: 0, y: 0 })
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const testimonials = [
-    {
-      quote:
-        "Quanta Development transformed our business with their custom software solution. Their team was professional, responsive, and delivered beyond our expectations.",
-      author: "Sarah Johnson",
-      position: "CTO, TechInnovate",
-      rating: 5,
-    },
-    {
-      quote:
-        "The chatbot solution developed by Quanta has significantly improved our customer service efficiency. We've seen a 40% reduction in response time.",
-      author: "Michael Chen",
-      position: "Director of Operations, GlobalRetail",
-      rating: 5,
-    },
-    {
-      quote:
-        "Working with Quanta on our digital transformation initiative was a game-changer. Their strategic approach and technical expertise helped us modernize our entire infrastructure.",
-      author: "Emily Rodriguez",
-      position: "VP of Technology, FinanceHub",
-      rating: 5,
-    },
     {
       quote:
         "Quanta Development created an amazing website for our Mexican restaurant that perfectly captures our authentic atmosphere and cuisine. The online ordering system they implemented has increased our takeout orders by 60%.",
@@ -75,6 +26,29 @@ export default function Home() {
       position: "Owner, Casa Cabos",
       rating: 5,
     },
+  ];
+
+  const caseStudyImages = [
+    {
+      src: "/casacaboshome.png",
+      alt: "Casa Cabos Homepage",
+      caption: "Modern, Responsive Website Design"
+    },
+    {
+      src: "/casacabosfood.png",
+      alt: "Casa Cabos Food Menu",
+      caption: "Interactive Digital Menu"
+    },
+    {
+      src: "/casacabosmap.png",
+      alt: "Casa Cabos Location",
+      caption: "Integrated Location Services"
+    },
+    {
+      src: "/casacabosreviews.png",
+      alt: "Casa Cabos Reviews",
+      caption: "Customer Review Integration"
+    }
   ];
 
   useEffect(() => {
@@ -94,18 +68,12 @@ export default function Home() {
       observer.observe(section);
     });
 
-    // Auto-rotate testimonials
-    const interval = setInterval(() => {
-      setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-
     return () => {
       sections.forEach((section) => {
         observer.unobserve(section);
       });
-      clearInterval(interval);
     };
-  }, [testimonials.length]);
+  }, []);
 
   // Function to generate grid points
   const generateGridPoints = useCallback(() => {
@@ -123,82 +91,113 @@ export default function Home() {
     return points
   }, [])
 
+  const handleMouseMove = (event: React.MouseEvent) => {
+    const { clientX, clientY } = event
+    const { left, top } = event.currentTarget.getBoundingClientRect()
+    
+    setMousePosition({ 
+      x: (clientX - left) / window.innerWidth,
+      y: (clientY - top) / window.innerHeight 
+    })
+  }
+
+  useEffect(() => {
+    const animateCursor = () => {
+      setCursorPoint(prev => ({
+        x: prev.x + (mousePosition.x - prev.x) * 0.1,
+        y: prev.y + (mousePosition.y - prev.y) * 0.1
+      }))
+      requestAnimationFrame(animateCursor)
+    }
+    const animation = requestAnimationFrame(animateCursor)
+    return () => cancelAnimationFrame(animation)
+  }, [mousePosition])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % caseStudyImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const getAdjacentIndexes = (current: number, total: number) => ({
+    prev: (current - 1 + total) % total,
+    next: (current + 1) % total
+  });
+
   return (
     <main className="flex min-h-screen flex-col">
       {/* Hero Section with Parallax */}
       <section
         ref={heroRef}
-        className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20 md:py-32"
+        className="relative bg-white py-20 md:py-32 overflow-hidden"
       >
-        {/* Animated Background */}
-        <div className="absolute inset-0 overflow-hidden">
+        {/* Enhanced Background */}
+        <div className="absolute inset-0">
+          {/* Gradient base */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100/50" />
+          
+          {/* Animated circles */}
+          <div className="absolute inset-0 overflow-hidden">
+            <motion.div
+              className="absolute -top-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-gradient-to-br from-blue-200/20 to-transparent"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+                rotate: [0, 90, 0],
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+            <motion.div
+              className="absolute -bottom-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-gradient-to-tr from-blue-100/30 to-transparent"
+              animate={{
+                scale: [1.2, 1, 1.2],
+                opacity: [0.2, 0.4, 0.2],
+                rotate: [0, -90, 0],
+              }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          </div>
+
+          {/* Subtle grid pattern */}
+          <div 
+            className="absolute inset-0 opacity-[0.15]"
+            style={{
+              backgroundImage: `radial-gradient(circle at 1px 1px, rgb(59 130 246 / 0.15) 1px, transparent 0)`,
+              backgroundSize: '40px 40px',
+            }}
+          />
+
+          {/* Floating particles */}
           <div className="absolute inset-0">
-            {/* Animated circles */}
-            {Array.from({ length: 6 }).map((_, i) => (
+            {Array.from({ length: 20 }).map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute rounded-full bg-blue-200/20 blur-xl"
+                className="absolute w-1 h-1 rounded-full bg-blue-400/30"
                 style={{
-                  width: Math.random() * 300 + 100,
-                  height: Math.random() * 300 + 100,
-                  top: `${Math.random() * 100}%`,
                   left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
                 }}
                 animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.1, 0.2, 0.1],
-                  x: [0, Math.random() * 100 - 50],
-                  y: [0, Math.random() * 100 - 50],
+                  y: [0, -20, 0],
+                  opacity: [0, 1, 0],
                 }}
                 transition={{
-                  duration: 20 + i * 5,
+                  duration: 5 + Math.random() * 3,
                   repeat: Infinity,
-                  repeatType: "reverse",
+                  delay: Math.random() * 5,
                   ease: "easeInOut",
                 }}
               />
             ))}
-
-            {/* Gradient lines */}
-            <svg
-              className="absolute w-full h-full opacity-30"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <linearGradient id="line-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="rgb(59 130 246)" stopOpacity="0.2" />
-                  <stop offset="100%" stopColor="rgb(59 130 246)" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              {Array.from({ length: 8 }).map((_, i) => (
-                <motion.path
-                  key={i}
-                  d={`M ${-100 + (i * 300)} 0 L ${100 + (i * 300)} 1000`}
-                  stroke="url(#line-gradient)"
-                  strokeWidth="1"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ 
-                    pathLength: [0, 1, 0],
-                    opacity: [0, 0.3, 0],
-                  }}
-                  transition={{
-                    duration: 10 + i * 2,
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    ease: "easeInOut",
-                    delay: i * 2,
-                  }}
-                />
-              ))}
-            </svg>
-
-            {/* Radial Gradient Overlay */}
-            <div 
-              className="absolute inset-0"
-              style={{
-                background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 70%, rgba(255,255,255,0.95) 100%)'
-              }}
-            />
           </div>
         </div>
 
@@ -508,81 +507,120 @@ export default function Home() {
               transition={{ duration: 0.5 }}
             >
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                What Our Clients Say
+                Real Results, Real Impact
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Don't just take our word for it. Here's what our clients have to
-                say about working with us.
+                See how we transform businesses through innovative digital solutions. Our work with Casa Cabos showcases our ability to deliver impactful results.
               </p>
             </motion.div>
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            <div className="relative bg-white rounded-xl shadow-xl p-8 md:p-12">
-              {/* Decorative quotes */}
-              <div className="absolute top-6 left-6 text-blue-200 opacity-50">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="48"
-                  height="48"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
-                  <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
-                </svg>
+          <div className="max-w-5xl mx-auto">
+            <div className="relative h-[300px] md:h-[400px] mb-12">
+              {/* Container for all slides */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                {caseStudyImages.map((image, index) => {
+                  const isActive = currentImageIndex === index;
+                  const { prev, next } = getAdjacentIndexes(currentImageIndex, caseStudyImages.length);
+                  const isPrev = prev === index;
+                  const isNext = next === index;
+
+                  return (
+                    <motion.div
+                      key={image.src}
+                      className={`absolute rounded-xl overflow-hidden shadow-2xl transition-all duration-700
+                        ${isActive ? 'w-[60%] z-20 opacity-100' : 'w-[40%] opacity-50'}
+                        ${isPrev ? '-translate-x-[65%] z-10' : ''}
+                        ${isNext ? 'translate-x-[65%] z-10' : ''}
+                        ${!isActive && !isPrev && !isNext ? 'opacity-0' : ''}
+                      `}
+                      style={{ height: '100%' }}
+                    >
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={image.src}
+                          alt={image.alt}
+                          fill
+                          style={{ 
+                            objectFit: "cover",
+                            filter: isActive ? 'none' : 'blur(4px)'
+                          }}
+                          className="transition-all duration-700"
+                        />
+                        {isActive && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent"
+                          >
+                            <p className="text-xl font-bold text-white mb-2">{image.caption}</p>
+                            <p className="text-sm text-gray-200">{image.alt}</p>
+                          </motion.div>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
 
-              <AnimatePresence mode="wait">
+              {/* Navigation buttons */}
+              <button
+                onClick={() => setCurrentImageIndex((prev) => (prev - 1 + caseStudyImages.length) % caseStudyImages.length)}
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 rounded-full p-2 backdrop-blur-sm transition-all"
+                aria-label="Previous image"
+              >
+                <ArrowLeft className="w-6 h-6 text-white" />
+              </button>
+              <button
+                onClick={() => setCurrentImageIndex((prev) => (prev + 1) % caseStudyImages.length)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 rounded-full p-2 backdrop-blur-sm transition-all"
+                aria-label="Next image"
+              >
+                <ArrowRight className="w-6 h-6 text-white" />
+              </button>
+
+              {/* Navigation dots */}
+              <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 flex space-x-3 z-30">
+                {caseStudyImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`transition-all duration-300 ${
+                      currentImageIndex === index 
+                        ? "w-8 h-2 bg-blue-600 rounded-full" 
+                        : "w-2 h-2 bg-blue-200 hover:bg-blue-300 rounded-full"
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-xl p-8 md:p-12">
+              <div className="max-w-3xl mx-auto">
                 <motion.div
-                  key={testimonialIndex}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
                   className="text-center"
                 >
-                  <p className="text-xl md:text-2xl text-gray-700 italic mb-8 relative z-10">
-                    "{testimonials[testimonialIndex].quote}"
-                  </p>
+                  <blockquote className="text-xl md:text-2xl text-gray-600 mb-6 italic">
+                    "{testimonials[0].quote}"
+                  </blockquote>
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full mb-4"></div>
-                    <h4 className="text-lg font-semibold">
-                      {testimonials[testimonialIndex].author}
-                    </h4>
-                    <p className="text-gray-600 mb-4">
-                      {testimonials[testimonialIndex].position}
-                    </p>
-                    <div className="flex">
-                      {Array.from({
-                        length: testimonials[testimonialIndex].rating,
-                      }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-5 h-5 text-yellow-500 fill-yellow-500"
-                        />
+                    <cite className="text-xl text-gray-900 font-semibold not-italic">
+                      {testimonials[0].author}
+                    </cite>
+                    <p className="text-lg text-gray-600">{testimonials[0].position}</p>
+                    <div className="flex gap-1 mt-4">
+                      {Array.from({ length: testimonials[0].rating }).map((_, i) => (
+                        <Star key={i} className="w-6 h-6 text-yellow-500 fill-yellow-500" />
                       ))}
                     </div>
                   </div>
                 </motion.div>
-              </AnimatePresence>
-
-              {/* Navigation dots */}
-              <div className="flex justify-center mt-8 space-x-2">
-                {testimonials.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setTestimonialIndex(i)}
-                    className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                      i === testimonialIndex ? "bg-blue-600" : "bg-gray-300"
-                    }`}
-                    aria-label={`Go to testimonial ${i + 1}`}
-                  />
-                ))}
               </div>
             </div>
           </div>
