@@ -3,7 +3,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle, Code, MessageSquare, Cpu, ArrowRight, Users, BarChart, Star } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 
@@ -68,38 +68,98 @@ export default function Home() {
     }
   }, [testimonials.length])
 
+  // Function to generate grid points
+  const generateGridPoints = useCallback(() => {
+    const points = []
+    const spacing = 40
+    for (let x = 0; x < 12; x++) {
+      for (let y = 0; y < 8; y++) {
+        points.push({
+          x: x * spacing,
+          y: y * spacing,
+          opacity: Math.random() * 0.3 + 0.1
+        })
+      }
+    }
+    return points
+  }, [])
+
   return (
     <main className="flex min-h-screen flex-col">
       {/* Hero Section with Parallax */}
       <section
         ref={heroRef}
-        className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20 md:py-32 overflow-hidden"
+        className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20 md:py-32"
       >
-        {/* Animated background elements */}
+        {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full">
-            {Array.from({ length: 20 }).map((_, i) => (
+          <div className="absolute inset-0">
+            {/* Animated circles */}
+            {Array.from({ length: 6 }).map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute rounded-full bg-blue-200 opacity-20"
+                className="absolute rounded-full bg-blue-200/20 blur-xl"
                 style={{
-                  width: Math.random() * 100 + 50,
-                  height: Math.random() * 100 + 50,
+                  width: Math.random() * 300 + 100,
+                  height: Math.random() * 300 + 100,
                   top: `${Math.random() * 100}%`,
                   left: `${Math.random() * 100}%`,
                 }}
                 animate={{
-                  y: [0, Math.random() * 100 - 50],
+                  scale: [1, 1.2, 1],
+                  opacity: [0.1, 0.2, 0.1],
                   x: [0, Math.random() * 100 - 50],
+                  y: [0, Math.random() * 100 - 50],
                 }}
                 transition={{
-                  duration: Math.random() * 10 + 10,
-                  repeat: Number.POSITIVE_INFINITY,
+                  duration: 20 + i * 5,
+                  repeat: Infinity,
                   repeatType: "reverse",
                   ease: "easeInOut",
                 }}
               />
             ))}
+
+            {/* Gradient lines */}
+            <svg
+              className="absolute w-full h-full opacity-30"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="line-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgb(59 130 246)" stopOpacity="0.2" />
+                  <stop offset="100%" stopColor="rgb(59 130 246)" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              {Array.from({ length: 8 }).map((_, i) => (
+                <motion.path
+                  key={i}
+                  d={`M ${-100 + (i * 300)} 0 L ${100 + (i * 300)} 1000`}
+                  stroke="url(#line-gradient)"
+                  strokeWidth="1"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ 
+                    pathLength: [0, 1, 0],
+                    opacity: [0, 0.3, 0],
+                  }}
+                  transition={{
+                    duration: 10 + i * 2,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    ease: "easeInOut",
+                    delay: i * 2,
+                  }}
+                />
+              ))}
+            </svg>
+
+            {/* Radial Gradient Overlay */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 70%, rgba(255,255,255,0.95) 100%)'
+              }}
+            />
           </div>
         </div>
 
