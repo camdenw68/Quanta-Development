@@ -1,69 +1,71 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Menu, X, Phone } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
-        setScrolled(true)
+        setScrolled(true);
       } else {
-        setScrolled(false)
+        setScrolled(false);
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [])
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <motion.header
-      className={`sticky top-0 z-50 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-white/60 transition-all duration-300 ${
-        scrolled ? "bg-white/95 shadow-md" : "bg-white/80"
+      className={`fixed top-0 z-50 w-full transition-all duration-500 ${
+        scrolled
+          ? "bg-white/80 backdrop-blur-xl border-b border-gray-200/20 supports-[backdrop-filter]:bg-white/60"
+          : "bg-transparent"
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center">
-            <motion.div
-              className="flex items-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="relative w-[40px] h-[40px] mr-[-5px]">
-                <Image
-                  src="/logo-q-blue.png"
-                  alt="Quanta Development Logo"
-                  fill
-                  style={{ objectFit: "contain" }}
-                  className="drop-shadow-sm"
-                />
-              </div>
-              <span className="text-xl font-bold">uanta Development</span>
-            </motion.div>
-          </Link>
-        </div>
+        <Link href="/" className="flex items-center group">
+          <motion.div
+            className="flex items-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="relative w-[40px] h-[40px] mr-[-5px] transition-transform duration-300 group-hover:scale-105">
+              <Image
+                src="/logo-q-blue.png"
+                alt="Quanta Development Logo"
+                fill
+                style={{ objectFit: "contain" }}
+                className="drop-shadow-sm"
+              />
+            </div>
+            <span className="text-xl font-medium tracking-tight">
+              uanta Development
+            </span>
+          </motion.div>
+        </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-8">
           {[
             { name: "Services", path: "/#services" },
             { name: "About", path: "/about" },
@@ -79,100 +81,103 @@ export default function Header() {
             >
               <Link
                 href={item.path}
-                className="text-sm font-medium hover:text-blue-600 transition-colors relative group"
+                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-300 relative group"
               >
                 {item.name}
-                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute left-0 bottom-[-2px] w-full h-[1.5px] bg-blue-600 scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
               </Link>
             </motion.div>
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.6 }}
           >
-            <Button variant="outline" size="sm" className="transition-transform hover:scale-105">
-              Log In
-            </Button>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.7 }}
-          >
-            <Button size="sm" className="bg-blue-600 hover:bg-blue-700 transition-transform hover:scale-105">
-              Get Started
-            </Button>
+            <Link href="/contact">
+              <Button
+                size="sm"
+                className="bg-blue-600/90 hover:bg-blue-600 text-white backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] shadow-sm hover:shadow px-6 rounded-full h-9"
+              >
+                <Phone className="w-4 h-4 mr-2" />
+                Schedule a Call
+              </Button>
+            </Link>
           </motion.div>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden flex items-center justify-center"
+          className="md:hidden flex items-center justify-center rounded-full w-10 h-10 hover:bg-gray-100/50 transition-colors duration-300"
           onClick={toggleMenu}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         >
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          <motion.div
+            initial={false}
+            animate={{ rotate: isMenuOpen ? 90 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {isMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
+          </motion.div>
         </button>
       </div>
 
       {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <motion.div
-          className="md:hidden fixed inset-0 top-16 z-50 bg-white p-4"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.3 }}
-        >
-          <nav className="flex flex-col gap-4">
-            <Link
-              href="/#services"
-              className="text-lg font-medium p-2 hover:bg-gray-100 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Services
-            </Link>
-            <Link
-              href="/about"
-              className="text-lg font-medium p-2 hover:bg-gray-100 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link
-              href="/case-studies"
-              className="text-lg font-medium p-2 hover:bg-gray-100 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Case Studies
-            </Link>
-            <Link
-              href="/blog"
-              className="text-lg font-medium p-2 hover:bg-gray-100 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Blog
-            </Link>
-            <Link
-              href="/contact"
-              className="text-lg font-medium p-2 hover:bg-gray-100 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact
-            </Link>
-            <div className="flex flex-col gap-2 mt-4">
-              <Button variant="outline" className="w-full">
-                Log In
-              </Button>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">Get Started</Button>
-            </div>
-          </nav>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            className="md:hidden fixed inset-0 top-16 z-50 bg-white/90 backdrop-blur-xl"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+          >
+            <nav className="flex flex-col gap-2 p-6">
+              {[
+                { name: "Services", path: "/#services" },
+                { name: "About", path: "/about" },
+                { name: "Case Studies", path: "/case-studies" },
+                { name: "Blog", path: "/blog" },
+                { name: "Contact", path: "/contact" },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 * i }}
+                >
+                  <Link
+                    href={item.path}
+                    className="text-lg font-medium text-gray-600 hover:text-gray-900 p-4 rounded-2xl hover:bg-gray-50/50 transition-all duration-300 block"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                </motion.div>
+              ))}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 }}
+                className="mt-4"
+              >
+                <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
+                  <Button className="w-full bg-blue-600/90 hover:bg-blue-600 text-white backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] shadow-sm hover:shadow rounded-2xl h-14 text-lg">
+                    <Phone className="w-5 h-5 mr-2" />
+                    Schedule a Call
+                  </Button>
+                </Link>
+              </motion.div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
-  )
+  );
 }

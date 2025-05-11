@@ -1,21 +1,40 @@
-"use client"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CheckCircle, Code, MessageSquare, Cpu, ArrowRight, Users, BarChart, Star, ArrowLeft } from "lucide-react"
-import { useEffect, useRef, useState, useCallback } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import Link from "next/link"
-
-
+"use client";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  CheckCircle,
+  Code,
+  MessageSquare,
+  Cpu,
+  ArrowRight,
+  Users,
+  BarChart,
+  Star,
+  ArrowLeft,
+} from "lucide-react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+import Link from "next/link";
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [cursorPoint, setCursorPoint] = useState({ x: 0, y: 0 })
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [cursorPoint, setCursorPoint] = useState({ x: 0, y: 0 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const testimonials = [
@@ -32,332 +51,234 @@ export default function Home() {
     {
       src: "/casacaboshome.png",
       alt: "Casa Cabos Homepage",
-      caption: "Modern, Responsive Website Design"
+      caption: "Modern, Responsive Website Design",
     },
     {
       src: "/casacabosfood.png",
       alt: "Casa Cabos Food Menu",
-      caption: "Interactive Digital Menu"
+      caption: "Interactive Digital Menu",
     },
     {
       src: "/casacabosmap.png",
       alt: "Casa Cabos Location",
-      caption: "Integrated Location Services"
+      caption: "Integrated Location Services",
     },
     {
       src: "/casacabosreviews.png",
       alt: "Casa Cabos Reviews",
-      caption: "Customer Review Integration"
-    }
+      caption: "Customer Review Integration",
+    },
   ];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           entry.target.classList.add("animate-fade-in");
+  //         }
+  //       });
+  //     },
+  //     { threshold: 0.1 }
+  //   );
 
-    const sections = document.querySelectorAll("section");
-    sections.forEach((section) => {
-      observer.observe(section);
-    });
+  //   const sections = document.querySelectorAll("section");
+  //   sections.forEach((section) => {
+  //     observer.observe(section);
+  //   });
 
-    return () => {
-      sections.forEach((section) => {
-        observer.unobserve(section);
-      });
-    };
-  }, []);
+  //   return () => {
+  //     sections.forEach((section) => {
+  //       observer.unobserve(section);
+  //     });
+  //   };
+  // }, []);
 
   // Function to generate grid points
-  const generateGridPoints = useCallback(() => {
-    const points = []
-    const spacing = 40
-    for (let x = 0; x < 12; x++) {
-      for (let y = 0; y < 8; y++) {
-        points.push({
-          x: x * spacing,
-          y: y * spacing,
-          opacity: Math.random() * 0.3 + 0.1
-        })
-      }
-    }
-    return points
-  }, [])
+  // const generateGridPoints = useCallback(() => {
+  //   const points = []
+  //   const spacing = 40
+  //   for (let x = 0; x < 12; x++) {
+  //     for (let y = 0; y < 8; y++) {
+  //       points.push({
+  //         x: x * spacing,
+  //         y: y * spacing,
+  //         opacity: Math.random() * 0.3 + 0.1
+  //       })
+  //     }
+  //   }
+  //   return points
+  // }, [])
 
   const handleMouseMove = (event: React.MouseEvent) => {
-    const { clientX, clientY } = event
-    const { left, top } = event.currentTarget.getBoundingClientRect()
-    
-    setMousePosition({ 
+    const { clientX, clientY } = event;
+    const { left, top } = event.currentTarget.getBoundingClientRect();
+
+    setMousePosition({
       x: (clientX - left) / window.innerWidth,
-      y: (clientY - top) / window.innerHeight 
-    })
-  }
-
-  useEffect(() => {
-    const animateCursor = () => {
-      setCursorPoint(prev => ({
-        x: prev.x + (mousePosition.x - prev.x) * 0.1,
-        y: prev.y + (mousePosition.y - prev.y) * 0.1
-      }))
-      requestAnimationFrame(animateCursor)
-    }
-    const animation = requestAnimationFrame(animateCursor)
-    return () => cancelAnimationFrame(animation)
-  }, [mousePosition])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % caseStudyImages.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const getAdjacentIndexes = (current: number, total: number) => ({
-    prev: (current - 1 + total) % total,
-    next: (current + 1) % total
-  });
+      y: (clientY - top) / window.innerHeight,
+    });
+  };
 
   return (
-    <main className="flex min-h-screen flex-col">
-      {/* Hero Section with Parallax */}
+    <main className="flex min-h-screen flex-col bg-[#f8fafc] relative overflow-hidden selection:bg-blue-100">
+      {/* Unified background gradients for entire page */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(236, 246, 255, 0.5) 0%, rgba(248, 250, 252, 0.8) 50%, rgba(236, 246, 255, 0.4) 100%)",
+        }}
+      />
+
+      {/* Gradient orbs with subtle animation */}
+      <motion.div
+        className="absolute top-[-10%] left-[-5%] w-[80%] h-[80%] z-0"
+        animate={{
+          scale: [1, 1.05, 1],
+          opacity: [0.8, 0.9, 0.8],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        style={{
+          background:
+            "radial-gradient(circle at 30% 40%, rgba(59, 130, 246, 0.25) 0%, rgba(37, 99, 235, 0.15) 25%, transparent 50%)",
+          filter: "blur(45px)",
+        }}
+      />
+
+      <motion.div
+        className="absolute top-[40%] right-[-5%] w-[60%] h-[60%] z-0"
+        animate={{
+          scale: [1, 1.1, 1],
+          opacity: [0.7, 0.8, 0.7],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+        style={{
+          background:
+            "radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 25%, transparent 50%)",
+          filter: "blur(45px)",
+        }}
+      />
+
+      <motion.div
+        className="absolute bottom-[10%] left-[20%] w-[50%] h-[50%] z-0"
+        animate={{
+          scale: [1, 1.08, 1],
+          opacity: [0.6, 0.7, 0.6],
+        }}
+        transition={{
+          duration: 9,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
+        }}
+        style={{
+          background:
+            "radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.08) 25%, transparent 50%)",
+          filter: "blur(45px)",
+        }}
+      />
+
+      {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative bg-white py-20 md:py-32 overflow-hidden"
+        className="relative min-h-[85vh] w-full pt-32 pb-8 md:pt-40 md:pb-8 z-10"
       >
-        {/* Enhanced Background */}
-        <div className="absolute inset-0">
-          {/* Gradient base */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100/50" />
-          
-          {/* Animated circles */}
-          <div className="absolute inset-0 overflow-hidden">
+        <div className="container relative mx-auto px-4 md:px-6">
+          <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
             <motion.div
-              className="absolute -top-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-gradient-to-br from-blue-200/20 to-transparent"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-                rotate: [0, 90, 0],
-              }}
-              transition={{
-                duration: 15,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.div
-              className="absolute -bottom-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-gradient-to-tr from-blue-100/30 to-transparent"
-              animate={{
-                scale: [1.2, 1, 1.2],
-                opacity: [0.2, 0.4, 0.2],
-                rotate: [0, -90, 0],
-              }}
-              transition={{
-                duration: 12,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          </div>
-
-          {/* Subtle grid pattern */}
-          <div 
-            className="absolute inset-0 opacity-[0.15]"
-            style={{
-              backgroundImage: `radial-gradient(circle at 1px 1px, rgb(59 130 246 / 0.15) 1px, transparent 0)`,
-              backgroundSize: '40px 40px',
-            }}
-          />
-
-          {/* Floating particles */}
-          <div className="absolute inset-0">
-            {Array.from({ length: 20 }).map((_, i) => (
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="flex items-center justify-center"
+            >
               <motion.div
-                key={i}
-                className="absolute w-1 h-1 rounded-full bg-blue-400/30"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                animate={{
-                  y: [0, -20, 0],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: 5 + Math.random() * 3,
-                  repeat: Infinity,
-                  delay: Math.random() * 5,
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
+                className="relative w-[80px] h-[80px] mr-[-10px]"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                <Image
+                  src="/logo-q-blue.png"
+                  alt="Quanta Development Logo"
+                  fill
+                  style={{ objectFit: "contain" }}
+                  className="drop-shadow-md"
+                />
+              </motion.div>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900">
+                uanta Development
+              </h1>
+            </motion.div>
+            <motion.h2
+              className="text-2xl md:text-3xl lg:text-4xl font-medium text-gray-900 mt-8 mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              Transforming Ideas into Powerful Digital Solutions
+            </motion.h2>
+            <motion.p
+              className="text-xl text-gray-500 max-w-2xl mx-auto mb-10"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              We build custom software, intelligent chatbots, and innovative
+              digital solutions that help businesses thrive in the modern
+              technological landscape.
+            </motion.p>
+            <motion.div
+              className="flex flex-col sm:flex-row gap-5 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              <Link href="/contact">
+                <Button
+                  size="lg"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-blue-300/50 text-lg h-14 min-w-[200px] backdrop-blur-sm"
+                >
+                  Get Started
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="/#services">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="transition-all duration-300 hover:scale-105 border-blue-200 hover:border-blue-300 text-blue-600 hover:text-blue-700 rounded-full px-8 text-lg h-14 min-w-[200px] backdrop-blur-sm bg-white/50 hover:bg-white/80"
+                >
+                  Our Services
+                </Button>
+              </Link>
+            </motion.div>
           </div>
         </div>
-
-        <motion.div style={{ y, opacity }} className="relative z-10">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="flex-1 space-y-6">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="flex items-center"
-                >
-                  <div className="relative w-[60px] h-[60px] mr-[-5px]">
-                    <Image
-                      src="/logo-q-blue.png"
-                      alt="Quanta Development Logo"
-                      fill
-                      style={{ objectFit: "contain" }}
-                      className="drop-shadow-sm"
-                    />
-                  </div>
-                  <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
-                    uanta Development
-                  </h1>
-                </motion.div>
-                <motion.h2
-                  className="text-2xl md:text-3xl font-medium text-gray-700"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                >
-                  Transforming Ideas into Powerful Digital Solutions
-                </motion.h2>
-                <motion.p
-                  className="text-lg text-gray-600 max-w-xl"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                >
-                  We build custom software, intelligent chatbots, and innovative
-                  digital solutions that help businesses thrive in the modern
-                  technological landscape.
-                </motion.p>
-                <motion.div
-                  className="flex flex-col sm:flex-row gap-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.8 }}
-                >
-                  <Link href="/contact">
-                    <Button
-                      size="lg"
-                      className="bg-blue-600 hover:bg-blue-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-blue-300/50"
-                    >
-                      Get Started
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                  <Link href="/#services">
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="transition-all duration-300 hover:scale-105 border-blue-300 hover:border-blue-500"
-                    >
-                      Our Services
-                    </Button>
-                  </Link>
-                </motion.div>
-              </div>
-              <motion.div
-                className="flex-1 flex justify-center"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 0.5 }}
-              >
-                <div className="relative w-full max-w-md h-[400px] bg-gradient-to-br from-blue-600 to-blue-400 rounded-lg shadow-xl overflow-hidden">
-                  <div className="absolute inset-0 opacity-10">
-                    <svg
-                      className="w-full h-full"
-                      viewBox="0 0 100 100"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M0 0 L100 0 L100 100 L0 100 Z"
-                        fill="none"
-                        stroke="white"
-                        strokeWidth="0.5"
-                      ></path>
-                      {Array.from({ length: 10 }).map((_, i) => (
-                        <line
-                          key={i}
-                          x1="0"
-                          y1={i * 10}
-                          x2="100"
-                          y2={i * 10}
-                          stroke="white"
-                          strokeWidth="0.2"
-                        />
-                      ))}
-                      {Array.from({ length: 10 }).map((_, i) => (
-                        <line
-                          key={i}
-                          x1={i * 10}
-                          y1="0"
-                          x2={i * 10}
-                          y2="100"
-                          stroke="white"
-                          strokeWidth="0.2"
-                        />
-                      ))}
-                    </svg>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center p-8">
-                    <div className="text-white text-center">
-                      <motion.div
-                        animate={{
-                          rotate: [0, 10, 0, -10, 0],
-                        }}
-                        transition={{
-                          repeat: Number.POSITIVE_INFINITY,
-                          duration: 5,
-                          ease: "easeInOut",
-                        }}
-                      >
-                        <Cpu className="w-16 h-16 mx-auto mb-4" />
-                      </motion.div>
-                      <h3 className="text-2xl font-bold mb-2">
-                        Cutting-Edge Technology
-                      </h3>
-                      <p>
-                        We leverage the latest technologies to build solutions
-                        that are scalable, secure, and future-proof.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </motion.div>
       </section>
 
       {/* Services Section */}
-      <section
-        className="py-20 bg-gradient-to-br from-blue-50 via-white to-blue-50"
-        id="services"
-      >
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-16">
+      <section className="relative pt-4 pb-16 z-10" id="services">
+        <div className="container relative mx-auto px-4 md:px-6">
+          <div className="text-center mb-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 tracking-tight">
                 Our Services
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
                 We offer cutting-edge digital solutions designed to drive your
                 business growth and success in the modern technological
                 landscape.
@@ -365,7 +286,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pb-16 max-w-7xl mx-auto">
             {[
               {
                 icon: <Code className="w-8 h-8 text-blue-600" />,
@@ -386,6 +307,7 @@ export default function Home() {
                   "Improved scalability",
                 ],
                 link: "/services/custom-software",
+                gradient: "from-blue-500/20 to-blue-600/20",
               },
               {
                 icon: <MessageSquare className="w-8 h-8 text-blue-600" />,
@@ -406,6 +328,7 @@ export default function Home() {
                   "Cost-effective operations",
                 ],
                 link: "/services/ai-chatbots",
+                gradient: "from-indigo-500 to-indigo-600",
               },
               {
                 icon: <BarChart className="w-8 h-8 text-blue-600" />,
@@ -426,6 +349,7 @@ export default function Home() {
                   "Future-proof infrastructure",
                 ],
                 link: "/services/digital-transformation",
+                gradient: "from-violet-500 to-violet-600",
               },
             ].map((service, i) => (
               <motion.div
@@ -434,13 +358,22 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.2 }}
+                className="group"
               >
-                <Card className="border-none shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 h-full bg-white">
+                <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-[1.02] h-full bg-white/80 backdrop-blur-sm">
+                  <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background:
+                        "radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%)",
+                    }}
+                  />
                   <CardHeader className="pb-2">
-                    <div className="w-16 h-16 rounded-xl bg-blue-100 flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100/80 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 backdrop-blur-sm">
                       {service.icon}
                     </div>
-                    <CardTitle className="text-2xl font-bold text-gray-900">
+                    <CardTitle className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
                       {service.title}
                     </CardTitle>
                   </CardHeader>
@@ -450,285 +383,49 @@ export default function Home() {
                     </CardDescription>
 
                     <div className="mb-6">
-                      <h4 className="text-sm font-semibold text-gray-900 mb-3">
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                        <span className="w-2 h-2 rounded-full bg-blue-600 mr-2"></span>
                         Key Features:
                       </h4>
-                      <ul className="space-y-2">
+                      <ul className="space-y-3">
                         {service.items.map((item, j) => (
-                          <li key={j} className="flex items-center">
-                            <CheckCircle className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0" />
-                            <span className="text-gray-700">{item}</span>
+                          <li key={j} className="flex items-center group/item">
+                            <CheckCircle className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0 group-hover/item:scale-110 transition-transform duration-300" />
+                            <span className="text-gray-700 group-hover/item:text-blue-600 transition-colors duration-300">
+                              {item}
+                            </span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
                     <div className="mb-6">
-                      <h4 className="text-sm font-semibold text-gray-900 mb-3">
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                        <span className="w-2 h-2 rounded-full bg-blue-600 mr-2"></span>
                         Business Benefits:
                       </h4>
-                      <ul className="space-y-2">
+                      <ul className="space-y-3">
                         {service.benefits.map((benefit, j) => (
-                          <li key={j} className="flex items-center">
-                            <ArrowRight className="w-4 h-4 text-blue-600 mr-2 flex-shrink-0" />
-                            <span className="text-gray-700">{benefit}</span>
+                          <li key={j} className="flex items-center group/item">
+                            <ArrowRight className="w-4 h-4 text-blue-600 mr-2 flex-shrink-0 group-hover/item:translate-x-1 transition-transform duration-300" />
+                            <span className="text-gray-700 group-hover/item:text-blue-600 transition-colors duration-300">
+                              {benefit}
+                            </span>
                           </li>
                         ))}
                       </ul>
                     </div>
-
-                    <div className="mt-auto">
-                      <Link href={service.link}>
-                        <Button
-                          variant="outline"
-                          className="w-full mt-4 hover:bg-blue-50 border-blue-200 hover:border-blue-300 transition-all duration-300"
-                        >
-                          Learn More
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </Link>
-                    </div>
                   </CardContent>
                 </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Real Results, Real Impact
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                See how we transform businesses through innovative digital solutions. Our work with Casa Cabos showcases our ability to deliver impactful results.
-              </p>
-            </motion.div>
-          </div>
-
-          <div className="max-w-5xl mx-auto">
-            <div className="relative h-[300px] md:h-[400px] mb-12">
-              {/* Container for all slides */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                {caseStudyImages.map((image, index) => {
-                  const isActive = currentImageIndex === index;
-                  const { prev, next } = getAdjacentIndexes(currentImageIndex, caseStudyImages.length);
-                  const isPrev = prev === index;
-                  const isNext = next === index;
-
-                  return (
-                    <motion.div
-                      key={image.src}
-                      className={`absolute rounded-xl overflow-hidden shadow-2xl transition-all duration-700
-                        ${isActive ? 'w-[60%] z-20 opacity-100' : 'w-[40%] opacity-50'}
-                        ${isPrev ? '-translate-x-[65%] z-10' : ''}
-                        ${isNext ? 'translate-x-[65%] z-10' : ''}
-                        ${!isActive && !isPrev && !isNext ? 'opacity-0' : ''}
-                      `}
-                      style={{ height: '100%' }}
-                    >
-                      <div className="relative w-full h-full">
-                        <Image
-                          src={image.src}
-                          alt={image.alt}
-                          fill
-                          style={{ 
-                            objectFit: "cover",
-                            filter: isActive ? 'none' : 'blur(4px)'
-                          }}
-                          className="transition-all duration-700"
-                        />
-                        {isActive && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent"
-                          >
-                            <p className="text-xl font-bold text-white mb-2">{image.caption}</p>
-                            <p className="text-sm text-gray-200">{image.alt}</p>
-                          </motion.div>
-                        )}
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-
-              {/* Navigation buttons */}
-              <button
-                onClick={() => setCurrentImageIndex((prev) => (prev - 1 + caseStudyImages.length) % caseStudyImages.length)}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 rounded-full p-2 backdrop-blur-sm transition-all"
-                aria-label="Previous image"
-              >
-                <ArrowLeft className="w-6 h-6 text-white" />
-              </button>
-              <button
-                onClick={() => setCurrentImageIndex((prev) => (prev + 1) % caseStudyImages.length)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 rounded-full p-2 backdrop-blur-sm transition-all"
-                aria-label="Next image"
-              >
-                <ArrowRight className="w-6 h-6 text-white" />
-              </button>
-
-              {/* Navigation dots */}
-              <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 flex space-x-3 z-30">
-                {caseStudyImages.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    className={`transition-all duration-300 ${
-                      currentImageIndex === index 
-                        ? "w-8 h-2 bg-blue-600 rounded-full" 
-                        : "w-2 h-2 bg-blue-200 hover:bg-blue-300 rounded-full"
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-xl p-8 md:p-12">
-              <div className="max-w-3xl mx-auto">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                  className="text-center"
-                >
-                  <blockquote className="text-xl md:text-2xl text-gray-600 mb-6 italic">
-                    "{testimonials[0].quote}"
-                  </blockquote>
-                  <div className="flex flex-col items-center">
-                    <cite className="text-xl text-gray-900 font-semibold not-italic">
-                      {testimonials[0].author}
-                    </cite>
-                    <p className="text-lg text-gray-600">{testimonials[0].position}</p>
-                    <div className="flex gap-1 mt-4">
-                      {Array.from({ length: testimonials[0].rating }).map((_, i) => (
-                        <Star key={i} className="w-6 h-6 text-yellow-500 fill-yellow-500" />
-                      ))}
-                    </div>
+                <Link href="/contact" className="block mt-4">
+                  <div className="bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-blue-500 hover:bg-white text-gray-700 hover:text-blue-600 text-base font-medium py-3 px-6 rounded-lg cursor-pointer transition-all duration-300 hover:shadow-sm text-center group">
+                    Learn More
+                    <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
-                </motion.div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us Section */}
-      <section className="py-20 bg-gray-50 opacity-0 transition-opacity duration-1000">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Why Choose Quanta Development
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We combine technical expertise with business acumen to deliver
-              solutions that drive real results.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <Users className="w-10 h-10 text-blue-600" />,
-                title: "Expert Team",
-                description:
-                  "Our team of experienced developers, designers, and strategists work together to bring your vision to life.",
-              },
-              {
-                icon: <Cpu className="w-10 h-10 text-blue-600" />,
-                title: "Cutting-Edge Technology",
-                description:
-                  "We stay at the forefront of technological advancements to provide you with the most innovative solutions.",
-              },
-              {
-                icon: <CheckCircle className="w-10 h-10 text-blue-600" />,
-                title: "Quality Assurance",
-                description:
-                  "Rigorous testing and quality control processes ensure that our deliverables meet the highest standards.",
-              },
-              {
-                icon: <ArrowRight className="w-10 h-10 text-blue-600" />,
-                title: "Agile Methodology",
-                description:
-                  "Our flexible approach allows for rapid development, continuous improvement, and adaptability to changing requirements.",
-              },
-              {
-                icon: <BarChart className="w-10 h-10 text-blue-600" />,
-                title: "Results-Driven",
-                description:
-                  "We focus on delivering solutions that generate tangible business outcomes and ROI.",
-              },
-              {
-                icon: <MessageSquare className="w-10 h-10 text-blue-600" />,
-                title: "Ongoing Support",
-                description:
-                  "Our relationship doesn't end at deployment. We provide continuous support and maintenance for all our solutions.",
-              },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                className="bg-white p-6 rounded-lg shadow-md"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{
-                  y: -5,
-                  boxShadow:
-                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                }}
-              >
-                <div className="mb-4">{item.icon}</div>
-                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
+                </Link>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-500 text-white opacity-0 transition-opacity duration-1000">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-3xl font-bold mb-6">
-              Ready to Transform Your Business?
-            </h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto">
-              Let's discuss how Quanta Development can help you achieve your
-              technology goals.
-            </p>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link href="/contact">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="bg-white text-blue-600 hover:bg-blue-50 shadow-lg hover:shadow-white/20"
-                >
-                  Contact Us Today
-                </Button>
-              </Link>
-            </motion.div>
-          </motion.div>
         </div>
       </section>
     </main>

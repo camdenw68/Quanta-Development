@@ -1,9 +1,17 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react"
-import { motion } from "framer-motion"
+import Link from "next/link";
+import Image from "next/image";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Mail,
+  Phone,
+  MapPin,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
@@ -50,27 +58,52 @@ export default function Footer() {
                   src="/logo-q-outline.png"
                   alt="Quanta Development Logo"
                   fill
-                  style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
+                  style={{
+                    objectFit: "contain",
+                    filter: "brightness(0) invert(1)",
+                  }}
                 />
               </div>
-              <span className="text-xl font-bold text-white">uanta Development</span>
+              <span className="text-xl font-bold text-white">
+                uanta Development
+              </span>
             </div>
             <p className="mb-4">
-              Transforming ideas into powerful digital solutions that drive business growth and innovation.
+              Transforming ideas into powerful digital solutions that drive
+              business growth and innovation.
             </p>
             <div className="flex space-x-4">
               {[
-                { icon: <Facebook size={20} />, label: "Facebook", href: "https://facebook.com" },
-                { icon: <Twitter size={20} />, label: "Twitter", href: "https://twitter.com" },
-                { icon: <Instagram size={20} />, label: "Instagram", href: "https://instagram.com" },
-                { icon: <Linkedin size={20} />, label: "LinkedIn", href: "https://linkedin.com" },
+                {
+                  icon: <Facebook size={20} />,
+                  label: "Facebook",
+                  href: "https://facebook.com",
+                },
+                {
+                  icon: <Twitter size={20} />,
+                  label: "Twitter",
+                  href: "https://twitter.com",
+                },
+                {
+                  icon: <Instagram size={20} />,
+                  label: "Instagram",
+                  href: "https://instagram.com",
+                },
+                {
+                  icon: <Linkedin size={20} />,
+                  label: "LinkedIn",
+                  href: "https://linkedin.com",
+                },
               ].map((social, i) => (
                 <motion.div
                   key={i}
                   whileHover={{ y: -3, scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
-                  <Link href={social.href} className="hover:text-blue-400 transition-colors">
+                  <Link
+                    href={social.href}
+                    className="hover:text-blue-400 transition-colors"
+                  >
                     {social.icon}
                     <span className="sr-only">{social.label}</span>
                   </Link>
@@ -88,14 +121,36 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4 text-white">Services</h3>
             <ul className="space-y-2">
               {[
-                { name: "Custom Software Development", href: "/services/custom-software" },
-                { name: "AI & Chatbot Solutions", href: "/services/ai-chatbots" },
-                { name: "Digital Transformation", href: "/services/digital-transformation" },
-                { name: "Mobile App Development", href: "/services/mobile-apps" },
-                { name: "Web Application Development", href: "/services/web-apps" },
+                {
+                  name: "Custom Software Development",
+                  href: "/services/custom-software",
+                },
+                {
+                  name: "AI & Chatbot Solutions",
+                  href: "/services/ai-chatbots",
+                },
+                {
+                  name: "Digital Transformation",
+                  href: "/services/digital-transformation",
+                },
+                {
+                  name: "Mobile App Development",
+                  href: "/services/mobile-apps",
+                },
+                {
+                  name: "Web Application Development",
+                  href: "/services/web-apps",
+                },
               ].map((service, i) => (
-                <motion.li key={i} whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                  <Link href={service.href} className="hover:text-blue-400 transition-colors">
+                <motion.li
+                  key={i}
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <Link
+                    href={service.href}
+                    className="hover:text-blue-400 transition-colors"
+                  >
                     {service.name}
                   </Link>
                 </motion.li>
@@ -118,8 +173,15 @@ export default function Footer() {
                 { name: "Careers", href: "/careers" },
                 { name: "Contact", href: "/contact" },
               ].map((item, i) => (
-                <motion.li key={i} whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                  <Link href={item.href} className="hover:text-blue-400 transition-colors">
+                <motion.li
+                  key={i}
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <Link
+                    href={item.href}
+                    className="hover:text-blue-400 transition-colors"
+                  >
                     {item.name}
                   </Link>
                 </motion.li>
@@ -133,24 +195,10 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="text-lg font-semibold mb-4 text-white">Contact Us</h3>
-            <ul className="space-y-3">
-              <motion.li
-                className="flex items-start"
-                whileHover={{ x: 5 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <MapPin className="w-5 h-5 mr-2 mt-0.5 text-blue-400" />
-                <span>123 Tech Avenue, Innovation District, CA 94103</span>
-              </motion.li>
-              <motion.li
-                className="flex items-center"
-                whileHover={{ x: 5 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <Phone className="w-5 h-5 mr-2 text-blue-400" />
-                <span>(555) 123-4567</span>
-              </motion.li>
+            <h3 className="text-lg font-semibold mb-4 text-white">
+              Contact Us
+            </h3>
+            <ul className="space-y-2">
               <motion.li
                 className="flex items-center"
                 whileHover={{ x: 5 }}
@@ -164,14 +212,21 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p>&copy; {new Date().getFullYear()} Quanta Development. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Quanta Development. All rights
+            reserved.
+          </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             {[
               { name: "Privacy Policy", href: "/privacy-policy" },
               { name: "Terms of Service", href: "/terms-of-service" },
               { name: "Cookie Policy", href: "/cookie-policy" },
             ].map((policy, i) => (
-              <Link key={i} href={policy.href} className="text-sm hover:text-blue-400 transition-colors">
+              <Link
+                key={i}
+                href={policy.href}
+                className="text-sm hover:text-blue-400 transition-colors"
+              >
                 {policy.name}
               </Link>
             ))}
@@ -179,5 +234,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import {
   ArrowRight,
   Users,
@@ -31,12 +30,7 @@ export default function AboutPage() {
       <section className="bg-gradient-to-b from-blue-50 to-white py-20 md:py-32">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-6"
-            >
+            <div className="mb-6">
               <div className="relative w-[80px] h-[80px] mx-auto mb-6">
                 <Image
                   src="/logo-q-blue.png"
@@ -54,7 +48,7 @@ export default function AboutPage() {
                 strategists dedicated to transforming ideas into powerful
                 digital solutions.
               </p>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -63,12 +57,7 @@ export default function AboutPage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
+            <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
                 Our Story
               </h2>
@@ -90,22 +79,15 @@ export default function AboutPage() {
                 startups to enterprise organizations, helping them navigate the
                 complex digital landscape and achieve their business objectives.
               </p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative h-[400px] rounded-lg overflow-hidden shadow-xl"
-            >
+            </div>
+            <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
               <Image
                 src="/logo-full.png"
                 alt="Quanta Development Logo"
                 fill
                 style={{ objectFit: "cover" }}
-                className="hover:scale-105 transition-transform duration-500"
               />
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -162,19 +144,11 @@ export default function AboutPage() {
                   "We continuously explore new technologies and approaches to deliver innovative solutions to our clients.",
               },
             ].map((value, i) => (
-              <motion.div
-                key={i}
-                className="bg-white p-6 rounded-lg shadow-md"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
+              <div key={i} className="bg-white p-6 rounded-lg shadow-md">
                 <div className="mb-4">{value.icon}</div>
                 <h3 className="text-xl font-semibold mb-2">{value.title}</h3>
                 <p className="text-gray-600">{value.description}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -194,15 +168,7 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-            <motion.div
-              key="ernest"
-              className="bg-white rounded-lg overflow-hidden shadow-md"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              whileHover={{ y: -5 }}
-            >
+            <div className="bg-white rounded-lg overflow-hidden shadow-md">
               <div className="relative h-64 w-full bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center">
                 <Users className="w-24 h-24 text-blue-600" />
               </div>
@@ -210,41 +176,36 @@ export default function AboutPage() {
                 <h3 className="text-xl font-semibold mb-1">Ernest Jones</h3>
                 <p className="text-blue-600 mb-3">Founder & CEO</p>
                 <p className="text-gray-600">
-                  Currently pursuing a Bachelor's and Master's degree in Artificial Intelligence, 
-                  with professional experience at a Fortune 500 company. Leading Quanta Development 
-                  with a vision to transform businesses through innovative technology solutions.
+                  Currently pursuing a Bachelor's and Master's degree in
+                  Artificial Intelligence, with professional experience at a
+                  Fortune 500 company. Leading Quanta Development with a vision
+                  to transform businesses through innovative technology
+                  solutions.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              key="camden"
-              className="bg-white rounded-lg overflow-hidden shadow-md"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              whileHover={{ y: -5 }}
-            >
+            <div className="bg-white rounded-lg overflow-hidden shadow-md">
               <div className="relative h-64 w-full bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center">
                 <Image
                   src="/cam.jpeg"
                   alt="Camden Wierengo"
                   fill
                   style={{ objectFit: "cover", objectPosition: "center 30%" }}
-                  className="hover:scale-105 transition-transform duration-300"
                 />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-1">Camden Wierengo</h3>
                 <p className="text-blue-600 mb-3">Lead Developer</p>
                 <p className="text-gray-600">
-                  Currently pursuing a Bachelor's and Master's degree in Artificial Intelligence,
-                  Camden brings technical expertise and innovative thinking to our development
-                  process, focusing on creating robust, scalable solutions using cutting-edge technologies.
+                  Currently pursuing a Bachelor's and Master's degree in
+                  Artificial Intelligence, Camden brings technical expertise and
+                  innovative thinking to our development process, focusing on
+                  creating robust, scalable solutions using cutting-edge
+                  technologies.
                 </p>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -252,29 +213,22 @@ export default function AboutPage() {
       {/* CTA Section */}
       <section className="py-20 bg-blue-600 text-white">
         <div className="container mx-auto px-4 md:px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
+          <div>
             <h2 className="text-3xl font-bold mb-6">Ready to Work With Us?</h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
               Let's discuss how Quanta Development can help you achieve your
               technology goals.
             </p>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link href="/contact">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="bg-white text-blue-600 hover:bg-blue-50"
-                >
-                  Contact Us Today
-                </Button>
-              </Link>
-            </motion.div>
-          </motion.div>
+            <Link href="/contact">
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-white text-blue-600 hover:bg-blue-50"
+              >
+                Contact Us Today
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
     </main>

@@ -86,6 +86,12 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        "grid-blue": "linear-gradient(to right, #3B82F610 1px, transparent 1px), linear-gradient(to bottom, #3B82F610 1px, transparent 1px)",
+      },
+      backgroundSize: {
+        'center': '40px 40px',
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
