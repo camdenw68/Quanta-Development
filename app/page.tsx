@@ -6,6 +6,8 @@ import { CheckCircle, Code, MessageSquare, Cpu, ArrowRight, Users, BarChart, Sta
 import { useEffect, useRef, useState, useCallback } from "react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Link from "next/link"
+import FloatingQ from "@/components/floatingQ"
+import InteractiveQcanvas from "@/components/InteractiveQcanvas"
 
 
 
@@ -136,46 +138,16 @@ export default function Home() {
         <div className="absolute inset-0">
           {/* Gradient base */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100/50" />
-          
-          {/* Animated circles */}
-          <div className="absolute inset-0 overflow-hidden">
-            <motion.div
-              className="absolute -top-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-gradient-to-br from-blue-200/20 to-transparent"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-                rotate: [0, 90, 0],
-              }}
-              transition={{
-                duration: 15,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.div
-              className="absolute -bottom-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-gradient-to-tr from-blue-100/30 to-transparent"
-              animate={{
-                scale: [1.2, 1, 1.2],
-                opacity: [0.2, 0.4, 0.2],
-                rotate: [0, -90, 0],
-              }}
-              transition={{
-                duration: 12,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          </div>
-
+  
           {/* Subtle grid pattern */}
-          <div 
+          <div
             className="absolute inset-0 opacity-[0.15]"
             style={{
               backgroundImage: `radial-gradient(circle at 1px 1px, rgb(59 130 246 / 0.15) 1px, transparent 0)`,
-              backgroundSize: '40px 40px',
+              backgroundSize: "40px 40px",
             }}
           />
-
+  
           {/* Floating particles */}
           <div className="absolute inset-0">
             {Array.from({ length: 20 }).map((_, i) => (
@@ -200,7 +172,8 @@ export default function Home() {
             ))}
           </div>
         </div>
-
+  
+        {/* Hero Content */}
         <motion.div style={{ y, opacity }} className="relative z-10">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
@@ -209,21 +182,20 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                  className="flex items-center"
+                  className="flex items-start gap-2"
                 >
-                  <div className="relative w-[60px] h-[60px] mr-[-5px]">
-                    <Image
-                      src="/logo-q-blue.png"
-                      alt="Quanta Development Logo"
-                      fill
-                      style={{ objectFit: "contain" }}
-                      className="drop-shadow-sm"
-                    />
+                  {/* Q logo container */}
+                  <div className="w-[180px] h-[170px] relative z-10">
+                    <InteractiveQcanvas />
                   </div>
-                  <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
+
+                  <h1 className="text-6xl md:text-7xl font-bold tracking-tight text-gray-900 -ml-1 mt-[22px]">
                     uanta Development
                   </h1>
                 </motion.div>
+  
+
+
                 <motion.h2
                   className="text-2xl md:text-3xl font-medium text-gray-700"
                   initial={{ opacity: 0, y: 20 }}
@@ -232,6 +204,7 @@ export default function Home() {
                 >
                   Transforming Ideas into Powerful Digital Solutions
                 </motion.h2>
+
                 <motion.p
                   className="text-lg text-gray-600 max-w-xl"
                   initial={{ opacity: 0, y: 20 }}
@@ -268,6 +241,7 @@ export default function Home() {
                   </Link>
                 </motion.div>
               </div>
+
               <motion.div
                 className="flex-1 flex justify-center"
                 initial={{ opacity: 0, scale: 0.9 }}
