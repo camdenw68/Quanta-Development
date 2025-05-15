@@ -57,7 +57,19 @@ type User = {
   email: string;
 }
 
-const ADMIN_EMAILS = ['your.admin@email.com'] // Add your admin email
+const ADMIN_EMAILS = process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(',') || []
+
+const isAdmin = (session: Session | null) => {
+  if (!session?.user?.email) return false
+  
+  const userEmail = session.user.email.trim().toLowerCase()
+  const adminEmails = ADMIN_EMAILS.map(email => email.trim().toLowerCase())
+  
+  console.log('User email:', userEmail)
+  console.log('Admin emails:', adminEmails)
+  
+  return adminEmails.includes(userEmail)
+}
 
 export default function BlogPage() {
   const [session, setSession] = useState<Session>(null)
@@ -75,7 +87,10 @@ export default function BlogPage() {
       if (session?.user) {
         const { error } = await supabase
           .from("profiles")
-          .upsert([{ id: session.user.id, full_name: "New User" }], { onConflict: "id" })
+          .upsert([{ 
+            id: session.user.id, 
+            full_name: session.user.email?.split('@')[0] || "New User"
+          }], { onConflict: "id" })
   
         if (error) {
           console.error("Failed to upsert profile:", error)
@@ -184,14 +199,15 @@ export default function BlogPage() {
               />
             </div>
 
-            {session?.user && ADMIN_EMAILS.includes(session.user.email) ? (
-              <Link href="/blog/new">
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  Write New Post
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            ) : null}
+            {session?.user && (
+              <Button
+                onClick={() => window.location.href = '/blog/new'}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                Write New Post
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            )}
           </div>
         </div>
       </section>
@@ -250,12 +266,13 @@ export default function BlogPage() {
                         <div className="flex items-center space-x-2">
                           {session?.user?.id === post.user_id && (
                             <Button
-                              variant="outline"
-                              className="h-8 w-8 p-0"
                               onClick={(e) => {
                                 e.preventDefault()
                                 handleDelete(post.id)
                               }}
+                              size="icon"
+                              variant="outline"
+                              className="h-8 w-8 p-0"
                             >
                               <Trash2 className="h-4 w-4 text-red-500" />
                             </Button>
