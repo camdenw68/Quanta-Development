@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { AuthModal } from "@/components/auth/AuthModal"
+
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -53,10 +53,14 @@ type Post = {
   profiles?: Profile
 }
 
+type User = {
+  email: string;
+}
+
+const ADMIN_EMAILS = ['your.admin@email.com'] // Add your admin email
+
 export default function BlogPage() {
   const [session, setSession] = useState<Session>(null)
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
-  const [authView, setAuthView] = useState<"sign_in" | "sign_up">("sign_in")
   const [searchQuery, setSearchQuery] = useState("")
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
@@ -135,11 +139,21 @@ export default function BlogPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        view={authView}
-      />
+      {/* Just keep the session indicator in a subtle way */}
+      {session?.user && (
+        <div className="fixed bottom-4 right-4 flex items-center gap-2 bg-white/50 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm">
+          <span className="text-xs text-gray-500">{session.user.email}</span>
+          <button
+            onClick={async () => {
+              await supabase.auth.signOut()
+              toast.success("Signed out successfully")
+            }}
+            className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            (sign out)
+          </button>
+        </div>
+      )}
 
       {/* Hero */}
       <section className="pt-20 pb-10">
@@ -170,45 +184,14 @@ export default function BlogPage() {
               />
             </div>
 
-            {session ? (
-              <div className="flex gap-2">
-                <Link href="/blog/new">
-                  <Button className="bg-blue-600 hover:bg-blue-700">
-                    Write New Post <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-                <Button
-                  variant="outline"
-                  onClick={async () => {
-                    await supabase.auth.signOut()
-                    toast.success("Signed out successfully.")
-                  }}
-                >
-                  Sign Out
+            {session?.user && ADMIN_EMAILS.includes(session.user.email) ? (
+              <Link href="/blog/new">
+                <Button className="bg-blue-600 hover:bg-blue-700">
+                  Write New Post
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-              </div>
-            ) : (
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setAuthView("sign_in")
-                    setIsAuthModalOpen(true)
-                  }}
-                >
-                  Sign In
-                </Button>
-                <Button
-                  className="bg-blue-600 hover:bg-blue-700"
-                  onClick={() => {
-                    setAuthView("sign_up")
-                    setIsAuthModalOpen(true)
-                  }}
-                >
-                  Sign Up
-                </Button>
-              </div>
-            )}
+              </Link>
+            ) : null}
           </div>
         </div>
       </section>
@@ -267,8 +250,8 @@ export default function BlogPage() {
                         <div className="flex items-center space-x-2">
                           {session?.user?.id === post.user_id && (
                             <Button
-                              size="icon"
-                              variant="ghost"
+                              variant="outline"
+                              className="h-8 w-8 p-0"
                               onClick={(e) => {
                                 e.preventDefault()
                                 handleDelete(post.id)
