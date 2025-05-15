@@ -270,7 +270,6 @@ export default function BlogPage() {
                                 e.preventDefault()
                                 handleDelete(post.id)
                               }}
-                              size="icon"
                               variant="outline"
                               className="h-8 w-8 p-0"
                             >

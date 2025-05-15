@@ -5,6 +5,9 @@ import { motion } from "framer-motion"
 import { Mail, Phone, MapPin, Send, MessageSquare, Clock } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
+import { useState } from "react"
+import { sendContactEmail } from "@/app/actions/contact"
+import { toast } from "sonner"
 
 export default function ContactPage() {
   return (
@@ -136,7 +139,17 @@ export default function ContactPage() {
               <Card className="border-none shadow-lg">
                 <CardContent className="p-8">
                   <h2 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
-                  <form className="space-y-6">
+                  <form className="space-y-6" action={async (formData) => {
+                    const result = await sendContactEmail(formData)
+                    if (result.success) {
+                      toast.success("Message sent successfully!")
+                      // Reset form
+                      const form = document.querySelector('form') as HTMLFormElement
+                      form.reset()
+                    } else {
+                      toast.error(result.error || "Failed to send message")
+                    }
+                  }}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <label htmlFor="firstName" className="text-sm font-medium">
@@ -144,7 +157,9 @@ export default function ContactPage() {
                         </label>
                         <input
                           id="firstName"
+                          name="firstName"
                           type="text"
+                          required
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                           placeholder="John"
                         />
@@ -155,7 +170,9 @@ export default function ContactPage() {
                         </label>
                         <input
                           id="lastName"
+                          name="lastName"
                           type="text"
+                          required
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                           placeholder="Doe"
                         />
@@ -168,7 +185,9 @@ export default function ContactPage() {
                       </label>
                       <input
                         id="email"
+                        name="email"
                         type="email"
+                        required
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         placeholder="john.doe@example.com"
                       />
@@ -180,6 +199,7 @@ export default function ContactPage() {
                       </label>
                       <input
                         id="phone"
+                        name="phone"
                         type="tel"
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         placeholder="(555) 123-4567"
@@ -192,7 +212,9 @@ export default function ContactPage() {
                       </label>
                       <input
                         id="subject"
+                        name="subject"
                         type="text"
+                        required
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         placeholder="Project Inquiry"
                       />
@@ -204,6 +226,8 @@ export default function ContactPage() {
                       </label>
                       <textarea
                         id="message"
+                        name="message"
+                        required
                         className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         placeholder="Tell us about your project or inquiry..."
                       />
@@ -212,6 +236,7 @@ export default function ContactPage() {
                     <div className="flex items-center space-x-2">
                       <input
                         id="terms"
+                        name="terms"
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                       />
@@ -228,7 +253,10 @@ export default function ContactPage() {
                       </label>
                     </div>
 
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-blue-600 hover:bg-blue-700"
+                    >
                       Send Message
                       <Send className="ml-2 h-4 w-4" />
                     </Button>
