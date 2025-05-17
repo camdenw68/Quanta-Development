@@ -54,7 +54,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story Section */}
-      <section className="py-20 bg-white">
+      {/* <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
@@ -82,15 +82,15 @@ export default function AboutPage() {
             </div>
             <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
               <Image
-                src="/logo-full.png"
+                src="/logo-q-blue.png"
                 alt="Quanta Development Logo"
                 fill
-                style={{ objectFit: "cover" }}
+                style={{ objectFit: "cover", objectPosition: "center 50%" }}
               />
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Our Values Section */}
       <section className="py-20 bg-gray-50">
@@ -167,10 +167,15 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <div className="bg-white rounded-lg overflow-hidden shadow-md">
               <div className="relative h-64 w-full bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center">
-                <Users className="w-24 h-24 text-blue-600" />
+                <Image
+                  src="/ernOS.JPG"
+                  alt="Ernest Jones"
+                  fill
+                  style={{ objectFit: "cover", objectPosition: "center 0%" }}
+                />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-1">Ernest Jones</h3>
@@ -203,6 +208,28 @@ export default function AboutPage() {
                   innovative thinking to our development process, focusing on
                   creating robust, scalable solutions using cutting-edge
                   technologies.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg overflow-hidden shadow-md">
+              <div className="relative h-64 w-full bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center">
+                <div className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center">
+                  <Image
+                    src="/clyde.JPG"
+                    alt="Clyde Bartee"
+                    fill
+                    style={{ objectFit: "cover", objectPosition: "center 20%" }}
+                  />
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-1">Clyde Bartee</h3>
+                <p className="text-blue-600 mb-3">Marketing Director</p>
+                <p className="text-gray-600">
+                  A seasoned sales professional with extensive experience across
+                  B2B and B2C sectors, Clyde brings over a of expertise in
+                  e-commerce strategy and digital marketing.
                 </p>
               </div>
             </div>
