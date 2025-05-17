@@ -159,26 +159,20 @@ export default function ContactPage() {
             >
               <Card className="border-none shadow-lg">
                 <CardContent className="p-8">
-
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
-                  <form className="space-y-6" action={async (formData) => {
+                  <form className="space-y-4" action={async (formData) => {
                     const result = await sendContactEmail(formData)
                     if (result.success) {
                       toast.success("Message sent successfully!")
-                      // Reset form
                       const form = document.querySelector('form') as HTMLFormElement
                       form.reset()
                     } else {
                       toast.error(result.error || "Failed to send message")
                     }
                   }}>
-
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                    Send Us a Message
-                  </h2>
-                  <form className="space-y-6">
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      Send Us a Message
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label
                           htmlFor="firstName"
